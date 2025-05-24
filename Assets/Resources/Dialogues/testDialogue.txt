@@ -1,0 +1,12 @@
+
+Speaker1
+Hello world, this is test dialogue line 1
+
+Speaker2
+Hello world, this is test dialogue line 2
++
+Speaker1
+This is a recordable positive line!!
+-
+Speaker2
+This is a recordable negative line!!
