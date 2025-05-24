@@ -12,6 +12,8 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
     private Dialogue currentLine;
     public DialogueUIHandler uiHandler;
 
+    public event Action nextLine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,10 +31,12 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
         }
     }
 
+    public Dialogue GetCurrentDialogue() {
+        return currentLine;
+    }
+
     public void FetchNextDialogue()
     {
-        Debug.Log("next line");
-        Debug.Log(dialogueQueue.Count);
         if (dialogueQueue.Count == 0)
         {
             EndDialogue();
@@ -43,6 +47,7 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
         uiHandler.DisplayNextDialogue(currentLine);
 
         currentlyInDialogue = true;
+        nextLine?.Invoke();
     }
 
     public void EndDialogue() {
@@ -98,6 +103,7 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
                 else if (counter%3 == 2)
                 {
                     temp.sentence = line;
+                    temp.id = filename + "_" + Mathf.Floor(counter / 3);
                     dialogueQueue.Enqueue(temp);
                     temp = new Dialogue();
                 }

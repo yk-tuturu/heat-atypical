@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 61fb53d03c88af74cb70af9688a55964
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - MS Gothic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5638be2864473cd42aa38c52eadd385a, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 2
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
