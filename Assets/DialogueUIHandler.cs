@@ -14,6 +14,8 @@ public class DialogueUIHandler : MonoBehaviour
     private GameObject dialoguePanel;
     [SerializeField]
     private GameObject nextButton;
+    [SerializeField]
+    private DialogueSpriteManager spriteManager;
 
     public bool isTyping = false;
     public float textDelay = 0.02f;
@@ -37,6 +39,7 @@ public class DialogueUIHandler : MonoBehaviour
     public void DisplayNextDialogue(Dialogue dialogue) {
         currentLine = dialogue;
         speakerText.text = dialogue.speaker;
+        spriteManager.ShowSprite(dialogue.speaker);
         StopAllCoroutines();
         StartCoroutine(TypeSentence(dialogue.sentence));
         nextButton.SetActive(false);
@@ -78,5 +81,6 @@ public class DialogueUIHandler : MonoBehaviour
         speechText.text = "";
         speakerText.text = "";
         HideDialoguePanel();
+        spriteManager.HideAllSprites();
     }
 }
