@@ -15,9 +15,13 @@ public class DialogueUIHandler : MonoBehaviour
     [SerializeField]
     private GameObject nextButton;
     [SerializeField]
+    private GameObject recPanel;
+
+    [SerializeField]
     private DialogueSpriteManager spriteManager;
 
     public bool isTyping = false;
+    private bool recordable = false;
     public float textDelay = 0.02f;
     private Dialogue currentLine;
 
@@ -38,11 +42,21 @@ public class DialogueUIHandler : MonoBehaviour
 
     public void DisplayNextDialogue(Dialogue dialogue) {
         currentLine = dialogue;
+
+        // set speaker text and sprite
         speakerText.text = dialogue.speaker;
         spriteManager.ShowSprite(dialogue.speaker);
+
+        // type new sentence
         StopAllCoroutines();
         StartCoroutine(TypeSentence(dialogue.sentence));
+        
         nextButton.SetActive(false);
+        recPanel.SetActive(false);
+
+        if (dialogue is RecordableDialogue) {
+            recordable = true;
+        }
     }
 
     public void SkipTextAnimation() {
@@ -53,9 +67,6 @@ public class DialogueUIHandler : MonoBehaviour
         EndTyping();
     }
 
-    public void NextButtonClicked() {
-        DialogueManager.Instance?.FetchNextDialogue();
-    }
 
     IEnumerator TypeSentence(string sentence)
     {
@@ -73,7 +84,12 @@ public class DialogueUIHandler : MonoBehaviour
     public void EndTyping() {
         isTyping = false;
         speechText.text = currentLine.sentence;
-        nextButton.SetActive(true);
+
+        if (recordable) {
+            recPanel.SetActive(true);
+        } else {
+            nextButton.SetActive(true);
+        }
     }
 
     public void EndDialogue() {
@@ -82,5 +98,16 @@ public class DialogueUIHandler : MonoBehaviour
         speakerText.text = "";
         HideDialoguePanel();
         spriteManager.HideAllSprites();
+    }
+
+    /** button call handlers
+    **
+    */
+    public void NextButtonClicked() {
+        DialogueManager.Instance?.FetchNextDialogue();
+    }
+
+    public void Record() {
+        
     }
 }
