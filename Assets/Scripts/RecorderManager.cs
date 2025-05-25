@@ -68,5 +68,12 @@ public class RecorderManager : MonoBehaviour
         return result;
     }
 
+    public bool checkRecorderFull() {
+        int limit = LocationManager.Instance.GetCurrentStorageLimit();
+        int count = GetRecordedDialogueInCurrentLocation().Count;
+
+        return count >= limit;
+    }
+
 
 }

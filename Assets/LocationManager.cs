@@ -37,8 +37,9 @@ public class LocationManager : MonoBehaviourSingleton<LocationManager>
     }
 
     public void ChangeLocation(string location) {
-        changeLocation?.Invoke(location);
         currentLocation = location;
+        changeLocation?.Invoke(location);
+        
     }
 
     public bool CheckLocationCompleted(string location) {

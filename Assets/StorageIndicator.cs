@@ -10,8 +10,6 @@ public class StorageIndicator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
         LocationManager.Instance.changeLocation += Refresh;
         RecorderManager.Instance.onRecordAdded += Refresh;
         RecorderManager.Instance.onUpdateRecording += Refresh;
@@ -48,7 +46,6 @@ public class StorageIndicator : MonoBehaviour
         for (var j = 0; j < limit-count; j++) {
             Instantiate(emptyNotch, parent);
         }
-        
     }
 
     public void Refresh(RecordableDialogue dialogue) {

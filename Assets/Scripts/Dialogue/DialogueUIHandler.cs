@@ -26,6 +26,8 @@ public class DialogueUIHandler : MonoBehaviour
     [SerializeField]
     private RectTransform notifPrefab;
     [SerializeField]
+    private RectTransform storageFullPrefab;
+    [SerializeField]
     private RectTransform confirmSkipPanel;
 
     [SerializeField]
@@ -195,5 +197,10 @@ public class DialogueUIHandler : MonoBehaviour
         canvasGroup.DOFade(1f, 0.5f);
         canvasGroup.blocksRaycasts = true;
         disabled = false;
+    }
+
+    public void StorageFullNotif() {
+        RectTransform clone = Instantiate(notifPrefab, this.GetComponent<RectTransform>());
+        clone.anchoredPosition = notifSpawnPoint.anchoredPosition;
     }
 }

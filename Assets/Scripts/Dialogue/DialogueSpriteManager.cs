@@ -45,5 +45,6 @@ public class DialogueSpriteManager : MonoBehaviour
         foreach (GameObject sprite in spriteDict.Values) {
             sprite.SetActive(false);
         }
+        activeSpriteName = "";
     }
 }

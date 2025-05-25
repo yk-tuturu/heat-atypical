@@ -4,3 +4,6 @@ This is the lab
 
 Speaker2
 We start here
++
+Speaker1
+Record this to test
