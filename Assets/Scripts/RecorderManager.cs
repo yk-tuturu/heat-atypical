@@ -4,16 +4,17 @@ using UnityEngine;
 using System;
 using System.Linq;
 
+// rewrite this to somehow split the dialogues by location
 public class RecorderManager : MonoBehaviour
 {
     public static RecorderManager Instance;
 
     public Dictionary<string, RecordableDialogue> recordedLines = new Dictionary<string, RecordableDialogue>();
-    public event Action<RecordableDialogue> onRecordAdded;
-
+    
     public List<RecordableDialogue> recordedList = new List<RecordableDialogue>(); // for debug
 
     public event Action onUpdateRecording;
+    public event Action<RecordableDialogue> onRecordAdded;
 
     void Awake()
     {
@@ -26,18 +27,6 @@ public class RecorderManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject); // Persist across scenes
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Record(RecordableDialogue dialogue) {
@@ -61,6 +50,22 @@ public class RecorderManager : MonoBehaviour
     public void Delete(RecordableDialogue dialogue) {
         recordedLines.Remove(dialogue.id);
         onUpdateRecording?.Invoke();
+    }
+
+    public List<RecordableDialogue> GetRecordedDialogueInCurrentLocation() {
+        List<string> dialoguesList = LocationManager.Instance.GetDialoguesInCurrentLocation();
+        List<RecordableDialogue> result = new List<RecordableDialogue>();
+
+        foreach (RecordableDialogue dialogue in recordedLines.Values) {
+            string id = dialogue.id;
+            string dialogueName = id.Split("_")[0];
+
+            if (dialoguesList.Contains(dialogueName)) {
+                result.Add(dialogue);
+            }
+        }
+
+        return result;
     }
 
 

@@ -15,6 +15,8 @@ public class locationUIHandler : MonoBehaviour
         }
 
         LocationManager.Instance.changeLocation += ChangeLocation;
+
+        ChangeLocation("lab");
     }
 
     // can add a fade effect later

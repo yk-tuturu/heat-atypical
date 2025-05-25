@@ -7,8 +7,15 @@ public class LocationManager : MonoBehaviourSingleton<LocationManager>
 {
     public event Action<string> changeLocation;
 
-    public Dictionary<string, List<string>> dialoguesPerLocation;
-    public Dictionary<string, bool> dialogueHistory;
+    public Dictionary<string, List<string>> dialoguesPerLocation = new Dictionary<string, List<string>>();
+    public Dictionary<string, bool> dialogueHistory = new Dictionary<string, bool>();
+
+    public Dictionary<string, int> storagePerLocation = new Dictionary<string, int> {
+        {"lab", 3},
+        {"hall", 3},
+        {"store", 3},
+        {"wasteland", 1}
+    };
 
     public string currentLocation = "lab";
     // Start is called before the first frame update
@@ -31,6 +38,7 @@ public class LocationManager : MonoBehaviourSingleton<LocationManager>
 
     public void ChangeLocation(string location) {
         changeLocation?.Invoke(location);
+        currentLocation = location;
     }
 
     public bool CheckLocationCompleted(string location) {
@@ -56,5 +64,13 @@ public class LocationManager : MonoBehaviourSingleton<LocationManager>
         }
 
         dialogueHistory[dialogueId] = true;
+    }
+
+    public int GetCurrentStorageLimit() {
+        return storagePerLocation[currentLocation];
+    }
+
+    public List<string> GetDialoguesInCurrentLocation() {
+        return dialoguesPerLocation[currentLocation];
     }
 }
