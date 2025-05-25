@@ -8,9 +8,11 @@ public class RecorderUIHandler : MonoBehaviour
 {
     public CanvasGroup mainMenuPanel;
     public CanvasGroup recorderSprite;
+    public GameObject confirmDeletePanel;
 
     public Transform scrollParent;
     public GameObject recordedLinePrefab;
+    public GameObject emptyPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +20,7 @@ public class RecorderUIHandler : MonoBehaviour
         recorderSprite.alpha = 0f;
         MenuManager.Instance.openRecorderMenu += OpenRecorderMenu;
         MenuManager.Instance.closeRecorderMenu += CloseRecorderMenu;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        RecorderManager.Instance.onUpdateRecording += GetRecordings;
     }
 
     public void OpenRecorderMenu() {
@@ -35,14 +32,7 @@ public class RecorderUIHandler : MonoBehaviour
             recorderSprite.DOFade(1f, 0.5f);
         }
 
-        foreach (Transform child in scrollParent)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            Instantiate(recordedLinePrefab, scrollParent);
-        }
+        GetRecordings();
     }
 
     public void CloseButtonPressed() {
@@ -59,5 +49,30 @@ public class RecorderUIHandler : MonoBehaviour
 
     public void GetRecordings() {
         List<RecordableDialogue> list = RecorderManager.Instance.GetRecordings();
+
+        foreach (Transform child in scrollParent)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        foreach (RecordableDialogue dialogue in list) {
+            GameObject clone = Instantiate(recordedLinePrefab, scrollParent);
+            clone.GetComponent<recordedLinePanel>().Setup(dialogue);
+        }
+
+        StartCoroutine(ForceRefreshLayout());
+    }
+
+    public void ConfirmDelete(RecordableDialogue dialogue) {
+        confirmDeletePanel.SetActive(true);
+        confirmDeletePanel.GetComponent<confirmDeletePanel>()?.SetDialogue(dialogue);
+    }
+
+    // dumb hack that actually works
+    IEnumerator ForceRefreshLayout() {
+        yield return new WaitForSeconds(0.1f);
+        GameObject clone = Instantiate(emptyPrefab, scrollParent);
+        yield return new WaitForSeconds(0.02f);
+        GameObject.Destroy(clone);
     }
 }

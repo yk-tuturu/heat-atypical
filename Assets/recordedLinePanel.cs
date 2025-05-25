@@ -20,12 +20,16 @@ public class recordedLinePanel : MonoBehaviour
         
     }
 
-    public void setup(RecordableDialogue dialogue) {
+    public void Setup(RecordableDialogue dialogue) {
         text.text = dialogue.sentence;
         this.dialogue = dialogue;
     }
 
     public void OnDelete() {
-        
+        RecorderUIHandler[] uiHandlers = FindObjectsOfType<RecorderUIHandler>();
+
+        if (uiHandlers.Length > 0) {
+            uiHandlers[0].ConfirmDelete(dialogue);
+        }
     }
 }

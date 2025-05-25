@@ -13,6 +13,8 @@ public class RecorderManager : MonoBehaviour
 
     public List<RecordableDialogue> recordedList = new List<RecordableDialogue>(); // for debug
 
+    public event Action onUpdateRecording;
+
     void Awake()
     {
         // If an instance already exists and it's not this:
@@ -54,6 +56,11 @@ public class RecorderManager : MonoBehaviour
 
     public List<RecordableDialogue> GetRecordings() {
         return recordedLines.Values.ToList();
+    }
+
+    public void Delete(RecordableDialogue dialogue) {
+        recordedLines.Remove(dialogue.id);
+        onUpdateRecording?.Invoke();
     }
 
 

@@ -9,10 +9,12 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
 {
     private Queue<Dialogue> dialogueQueue = new Queue<Dialogue>();
     public bool currentlyInDialogue = false;
+    private string currentDialogueID = "";
     private Dialogue currentLine;
     public DialogueUIHandler uiHandler;
 
     public event Action nextLine;
+    public event Action<string> OnDialogueEnd;
 
     // Start is called before the first frame update
     void Start()
@@ -52,8 +54,10 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
     }
 
     public void EndDialogue() {
-        Debug.Log("dialogue end");
+        OnDialogueEnd?.Invoke(currentDialogueID);
+
         currentlyInDialogue = false;
+        currentDialogueID = "";
         MenuManager.Instance.CloseDialogueMenu();
     }
 
@@ -67,7 +71,7 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
         ReadFile(filename);
 
         MenuManager.Instance.OpenDialogueMenu();
-        Debug.Log("dialogueTriggered " + filename);
+        currentDialogueID = filename;
     }
 
     // enqueues all the dialogues from the specified file

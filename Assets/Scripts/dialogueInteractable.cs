@@ -6,16 +6,17 @@ using UnityEngine.EventSystems;
 public class dialogueInteractable : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] 
-    private string dialogueFile;
+    private List<string> dialogueFiles;
 
-    public bool repeatable = false;
-    private bool seen = false;
+    private int currentIndex = 0;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!repeatable && seen) return;
+        DialogueManager.Instance?.TriggerDialogue(dialogueFiles[currentIndex]);
+        currentIndex = Mathf.Min(currentIndex + 1, dialogueFiles.Count - 1);
+    }
 
-        DialogueManager.Instance?.TriggerDialogue(dialogueFile);
-        seen = true;
+    public List<string> GetAllDialogues() {
+        return dialogueFiles;
     }
 }
