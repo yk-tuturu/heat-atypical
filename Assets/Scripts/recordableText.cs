@@ -49,6 +49,8 @@ public class recordableText : MonoBehaviour
     }
 
     void OnMouseClick(List<GameObject> objectsClicked) {
+        if (MenuManager.Instance.currentMenu != MenuManager.MenuType.Dialogue) return;
+
         if (isHovering && !isRecorded) {
             Dialogue dialogue = DialogueManager.Instance.GetCurrentDialogue();
 

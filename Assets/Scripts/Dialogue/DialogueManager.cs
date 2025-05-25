@@ -8,7 +8,7 @@ using System.Text;
 public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
 {
     private Queue<Dialogue> dialogueQueue = new Queue<Dialogue>();
-    private bool currentlyInDialogue = false;
+    public bool currentlyInDialogue = false;
     private Dialogue currentLine;
     public DialogueUIHandler uiHandler;
 
@@ -37,6 +37,7 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
 
     public void FetchNextDialogue()
     {
+        Debug.Log("fetch next line");
         if (dialogueQueue.Count == 0)
         {
             EndDialogue();
@@ -53,7 +54,7 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
     public void EndDialogue() {
         Debug.Log("dialogue end");
         currentlyInDialogue = false;
-        uiHandler.EndDialogue();
+        MenuManager.Instance.CloseDialogueMenu();
     }
 
     public void TriggerDialogue(string filename)
@@ -65,8 +66,7 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
 
         ReadFile(filename);
 
-        uiHandler.ShowDialoguePanel();
-        FetchNextDialogue();
+        MenuManager.Instance.OpenDialogueMenu();
         Debug.Log("dialogueTriggered " + filename);
     }
 

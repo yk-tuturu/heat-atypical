@@ -33,6 +33,7 @@ public class DialogueUIHandler : MonoBehaviour
 
     public bool isTyping = false;
     private bool recordable = false;
+    public bool disabled = false;
     public float textDelay = 0.02f;
     private Dialogue currentLine;
     private TextMeshProUGUI currentTextAsset;
@@ -41,9 +42,14 @@ public class DialogueUIHandler : MonoBehaviour
     void Start()
     {
         nextButton.SetActive(false);
-        dialoguePanel.SetActive(false);
+        allUIPanel.SetActive(false);
         currentTextAsset = speechText;
+
         RecorderManager.Instance.onRecordAdded += OnRecord;
+        MenuManager.Instance.openRecorderMenu += FadeOutDialogueUI;
+        MenuManager.Instance.closeRecorderMenu += FadeInDialogueUI;
+        MenuManager.Instance.openDialogueMenu += StartDialogue;
+        MenuManager.Instance.closeDialogueMenu += EndDialogue;
     }
 
     public void ShowDialoguePanel() {
@@ -52,6 +58,11 @@ public class DialogueUIHandler : MonoBehaviour
 
     public void HideDialoguePanel() {
         allUIPanel.SetActive(false);
+    }
+
+    public void StartDialogue() {
+        ShowDialoguePanel();
+        DialogueManager.Instance.FetchNextDialogue();
     }
 
     public void DisplayNextDialogue(Dialogue dialogue) {
@@ -126,10 +137,15 @@ public class DialogueUIHandler : MonoBehaviour
     ** button call handlers
     */
     public void NextButtonClicked() {
+        Debug.Log("next");
+        if (disabled) return;
+        
         DialogueManager.Instance?.FetchNextDialogue();
     }
 
     public void SkipButtonClicked() {
+        if (disabled) return;
+
         confirmSkipPanel.gameObject.SetActive(true);
 
         confirmSkipPanel.localScale = Vector3.zero;
@@ -137,6 +153,8 @@ public class DialogueUIHandler : MonoBehaviour
     }
 
     public void confirmSkip() {
+        if (disabled) return;
+
         confirmSkipPanel.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(()=> {
             confirmSkipPanel.gameObject.SetActive(false);
         });
@@ -144,12 +162,16 @@ public class DialogueUIHandler : MonoBehaviour
     }
 
     public void dontSkip() {
+        if (disabled) return;
+
         confirmSkipPanel.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(()=> {
             confirmSkipPanel.gameObject.SetActive(false);
         });
     }
 
     public void OnRecord(RecordableDialogue dialogue) {
+        if (disabled) return;
+
         RectTransform clone = Instantiate(notifPrefab, this.GetComponent<RectTransform>());
         clone.anchoredPosition = notifSpawnPoint.anchoredPosition;
 
@@ -158,12 +180,20 @@ public class DialogueUIHandler : MonoBehaviour
     }
 
     public void FadeOutDialogueUI() {
+        if (!DialogueManager.Instance.currentlyInDialogue) return;
+
         CanvasGroup canvasGroup = dialoguePanel.GetComponent<CanvasGroup>();
-        canvasGroup.DOFade(0f, 0.7f);
+        canvasGroup.DOFade(0f, 0.5f);
+        canvasGroup.blocksRaycasts = false;
+        disabled = true;
     }
 
     public void FadeInDialogueUI() {
+        if (!DialogueManager.Instance.currentlyInDialogue) return;
+
         CanvasGroup canvasGroup = dialoguePanel.GetComponent<CanvasGroup>();
-        canvasGroup.DOFade(1f, 0.7f);
+        canvasGroup.DOFade(1f, 0.5f);
+        canvasGroup.blocksRaycasts = true;
+        disabled = false;
     }
 }
