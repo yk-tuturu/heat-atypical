@@ -1,6 +1,6 @@
 
-Speaker1
+Speaker2
 Welcome to the wastelands
 
 Speaker2
-Waow
+This is the end of the game

@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class locationUIHandler : MonoBehaviour
 {   
     public List<GameObject> locations = new List<GameObject>();
 
     private Dictionary<string, GameObject> locationsDict = new Dictionary<string, GameObject>();
+
+    public CanvasGroup blackTransition;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +20,11 @@ public class locationUIHandler : MonoBehaviour
 
         LocationManager.Instance.changeLocation += ChangeLocation;
 
-        ChangeLocation("lab");
+        foreach (GameObject panel in locations) {
+            panel.SetActive(false);
+        }
+
+        locationsDict["lab"].SetActive(true);
     }
 
     // can add a fade effect later
@@ -26,11 +34,16 @@ public class locationUIHandler : MonoBehaviour
             return;
         }
 
-        foreach (GameObject panel in locations) {
-            panel.SetActive(false);
-        }
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(blackTransition.DOFade(1f, 0.5f).OnComplete(()=> {
+            foreach (GameObject panel in locations) {
+                panel.SetActive(false);
+            }
 
-        locationsDict[location].SetActive(true);
+            locationsDict[location].SetActive(true);
+        }));
+
+        sequence.Append(blackTransition.DOFade(0f, 0.5f));
     }
 
     public Dictionary<string, List<string>> GetAllDialoguesPerLocation() {

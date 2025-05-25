@@ -60,6 +60,11 @@ public class RecorderUIHandler : MonoBehaviour
             clone.GetComponent<recordedLinePanel>().Setup(dialogue);
         }
 
+        // DEBUGGING THE SCROLL
+        for (int i = 0; i < 20; i++) {
+            Instantiate(recordedLinePrefab, scrollParent);
+        }
+
         StartCoroutine(ForceRefreshLayout());
     }
 
