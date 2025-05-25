@@ -200,7 +200,7 @@ public class DialogueUIHandler : MonoBehaviour
     }
 
     public void StorageFullNotif() {
-        RectTransform clone = Instantiate(notifPrefab, this.GetComponent<RectTransform>());
+        RectTransform clone = Instantiate(storageFullPrefab, this.GetComponent<RectTransform>());
         clone.anchoredPosition = notifSpawnPoint.anchoredPosition;
     }
 }

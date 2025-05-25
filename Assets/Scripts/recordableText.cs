@@ -53,23 +53,23 @@ public class recordableText : MonoBehaviour
     void OnMouseClick(List<GameObject> objectsClicked) {
         if (MenuManager.Instance.currentMenu != MenuManager.MenuType.Dialogue) return;
 
-        if (RecorderManager.Instance.checkRecorderFull()) {
-            // send a notif and shake the text
-            uiHandler.StorageFullNotif();
-
-            RectTransform rect = GetComponent<RectTransform>();
-            rect.DOShakeAnchorPos(
-                duration: 0.5f,     // duration of the shake
-                strength: new Vector2(10, 10), // shake range
-                vibrato: 10,        // how many times it shakes
-                randomness: 90,     // how random the shake is
-                snapping: false,
-                fadeOut: true       // fade out the shake over time
-            );
-            return;
-        }
-
         if (isHovering && !isRecorded) {
+            if (RecorderManager.Instance.checkRecorderFull()) {
+                // send a notif and shake the text
+                uiHandler.StorageFullNotif();
+
+                RectTransform rect = GetComponent<RectTransform>();
+                rect.DOShakeAnchorPos(
+                    duration: 0.5f,     // duration of the shake
+                    strength: new Vector2(10, 10), // shake range
+                    vibrato: 50,        // how many times it shakes
+                    randomness: 90,     // how random the shake is
+                    snapping: false,
+                    fadeOut: true       // fade out the shake over time
+                );
+                return;
+            }
+
             Dialogue dialogue = DialogueManager.Instance.GetCurrentDialogue();
 
             if (dialogue is RecordableDialogue) {

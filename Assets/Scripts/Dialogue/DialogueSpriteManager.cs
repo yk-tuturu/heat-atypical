@@ -15,7 +15,7 @@ public class DialogueSpriteManager : MonoBehaviour
 
     private Dictionary<string, GameObject> spriteDict = new Dictionary<string, GameObject>();
 
-    private string activeSpriteName;
+    private string activeSpriteName = "";
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class DialogueSpriteManager : MonoBehaviour
             return;
         } 
 
-        if (activeSpriteName != null) {
+        if (activeSpriteName != "") {
             spriteDict[activeSpriteName]?.SetActive(false);
         }
         

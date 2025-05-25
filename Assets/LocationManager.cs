@@ -11,7 +11,7 @@ public class LocationManager : MonoBehaviourSingleton<LocationManager>
     public Dictionary<string, bool> dialogueHistory = new Dictionary<string, bool>();
 
     public Dictionary<string, int> storagePerLocation = new Dictionary<string, int> {
-        {"lab", 3},
+        {"lab", 1},
         {"hall", 3},
         {"store", 3},
         {"wasteland", 1}
