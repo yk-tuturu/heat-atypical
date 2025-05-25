@@ -10,8 +10,10 @@ public class MapButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        alertIndicator.SetActive(true);
+        alertIndicator.SetActive(false);
         doneIndicator.SetActive(false);
+
+        UpdateIndicator();
     }
 
     // Update is called once per frame
@@ -21,6 +23,9 @@ public class MapButton : MonoBehaviour
     }
 
     public void UpdateIndicator() {
+        if (location == "lab") {
+            Debug.Log(LocationManager.Instance.CheckLocationCompleted(location));
+        }
         if (LocationManager.Instance.CheckLocationCompleted(location)) {
             doneIndicator.SetActive(true);
             alertIndicator.SetActive(false);

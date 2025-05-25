@@ -67,6 +67,8 @@ public class recordableText : MonoBehaviour
                     snapping: false,
                     fadeOut: true       // fade out the shake over time
                 );
+
+                AudioManager.Instance?.PlaySFX("error");
                 return;
             }
 
@@ -75,6 +77,7 @@ public class recordableText : MonoBehaviour
             if (dialogue is RecordableDialogue) {
                 RecordableDialogue rDialogue = (RecordableDialogue) dialogue;
                 RecorderManager.Instance?.Record(rDialogue);
+                AudioManager.Instance?.PlaySFX("insertCassette");
             } 
         }
     }

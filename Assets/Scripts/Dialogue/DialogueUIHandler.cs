@@ -152,6 +152,8 @@ public class DialogueUIHandler : MonoBehaviour
 
         confirmSkipPanel.localScale = Vector3.zero;
         confirmSkipPanel.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+
+        AudioManager.Instance.PlaySFX("uiClick");
     }
 
     public void confirmSkip() {
@@ -161,6 +163,8 @@ public class DialogueUIHandler : MonoBehaviour
             confirmSkipPanel.gameObject.SetActive(false);
         });
         DialogueManager.Instance?.FetchNextDialogue();
+
+        AudioManager.Instance.PlaySFX("cassetteEject");
     }
 
     public void dontSkip() {
@@ -169,6 +173,8 @@ public class DialogueUIHandler : MonoBehaviour
         confirmSkipPanel.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(()=> {
             confirmSkipPanel.gameObject.SetActive(false);
         });
+
+        AudioManager.Instance.PlaySFX("uiClick");
     }
 
     public void OnRecord(RecordableDialogue dialogue) {

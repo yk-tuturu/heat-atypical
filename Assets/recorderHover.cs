@@ -47,6 +47,7 @@ public class recorderHover : MonoBehaviour
 
         recorderSprite.DOAnchorPos(menuPos, 0.5f).SetEase(Ease.InOutQuad);
         MenuManager.Instance.OpenRecorderMenu();
+        
     }
 
     public void CloseRecorderMenu() {

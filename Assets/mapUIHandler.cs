@@ -21,10 +21,6 @@ public class mapUIHandler : MonoBehaviour
     public void OpenMap() {
         mapPanel.SetActive(true);
 
-        foreach (var button in buttons) {
-            button.UpdateIndicator();
-        }
-
         CheckLevel();
 
         arrowToHall.SetActive(level >= 1);
@@ -34,6 +30,12 @@ public class mapUIHandler : MonoBehaviour
         buttons[1].gameObject.SetActive(level >= 1);
         buttons[2].gameObject.SetActive(level >= 1);
         buttons[3].gameObject.SetActive(level >= 2);
+
+        foreach (var button in buttons) {
+            button.UpdateIndicator();
+        }
+
+        AudioManager.Instance?.PlaySFX("uiClick");
     }
 
     public void CloseMap() {
@@ -43,6 +45,7 @@ public class mapUIHandler : MonoBehaviour
     public void NavigateTo(string location) {
         LocationManager.Instance.ChangeLocation(location);
         mapPanel.SetActive(false);
+        AudioManager.Instance?.PlaySFX("uiClick");
     }
 
     public void CheckLevel() {

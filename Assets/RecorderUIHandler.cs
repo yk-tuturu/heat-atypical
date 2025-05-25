@@ -33,10 +33,13 @@ public class RecorderUIHandler : MonoBehaviour
         }
 
         GetRecordings();
+
+        AudioManager.Instance?.PlaySFX("closeCassette");
     }
 
     public void CloseButtonPressed() {
         MenuManager.Instance.CloseRecorderMenu();
+        AudioManager.Instance?.PlaySFX("closeCassette");
     }
 
     public void CloseRecorderMenu() {
@@ -61,9 +64,9 @@ public class RecorderUIHandler : MonoBehaviour
         }
 
         // DEBUGGING THE SCROLL
-        for (int i = 0; i < 20; i++) {
-            Instantiate(recordedLinePrefab, scrollParent);
-        }
+        // for (int i = 0; i < 20; i++) {
+        //     Instantiate(recordedLinePrefab, scrollParent);
+        // }
 
         StartCoroutine(ForceRefreshLayout());
     }
