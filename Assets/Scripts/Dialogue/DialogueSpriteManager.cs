@@ -15,10 +15,10 @@ public class DialogueSpriteManager : MonoBehaviour
 
     private Dictionary<string, GameObject> spriteDict = new Dictionary<string, GameObject>();
 
-    private string activeSpriteName = "";
+    public string activeSpriteName = "";
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         foreach (var spritePair in spriteList) {
             spriteDict[spritePair.key] = spritePair.sprite;
@@ -27,8 +27,11 @@ public class DialogueSpriteManager : MonoBehaviour
     }
 
     public void ShowSprite(string name) {
-        if (name == activeSpriteName) return;
-        if (spriteDict[name] == null) {
+        if (name == activeSpriteName) {
+            return;
+        }
+
+        if (!spriteDict.ContainsKey(name)) {
             Debug.Log("sprite not found!");
             return;
         } 

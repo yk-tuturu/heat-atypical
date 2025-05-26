@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
     public event Action nextLine;
     public event Action<string> OnDialogueEnd;
 
+    public bool isEndingScene = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,8 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
     }
 
     void OnMouseClick(List<GameObject> objectsClicked) {
+        if (isEndingScene) return;
+        
         if (currentlyInDialogue) {
             if (uiHandler.isTyping) {
                 uiHandler.SkipTextAnimation();
@@ -39,7 +43,6 @@ public class DialogueManager : MonoBehaviourSingleton<DialogueManager>
 
     public void FetchNextDialogue()
     {
-        Debug.Log("fetch next line");
         if (dialogueQueue.Count == 0)
         {
             EndDialogue();

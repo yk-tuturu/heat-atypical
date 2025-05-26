@@ -40,6 +40,9 @@ public class DialogueUIHandler : MonoBehaviour
     private Dialogue currentLine;
     private TextMeshProUGUI currentTextAsset;
 
+    public GameObject speechTextPanel;
+    public GameObject recordableSpeechPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,9 +85,13 @@ public class DialogueUIHandler : MonoBehaviour
         if (dialogue is RecordableDialogue) {
             recordable = true;
             currentTextAsset = recordableText;
+            speechTextPanel.SetActive(false);
+            recordableSpeechPanel.SetActive(true);
         } else {
             recordable = false;
             currentTextAsset = speechText;
+            speechTextPanel.SetActive(true);
+            recordableSpeechPanel.SetActive(false);
         }
 
         // type new sentence
@@ -99,7 +106,6 @@ public class DialogueUIHandler : MonoBehaviour
         currentTextAsset.text = currentLine.sentence;
         EndTyping();
     }
-
 
     IEnumerator TypeSentence(string sentence)
     {
@@ -139,7 +145,6 @@ public class DialogueUIHandler : MonoBehaviour
     ** button call handlers
     */
     public void NextButtonClicked() {
-        Debug.Log("next");
         if (disabled) return;
         
         DialogueManager.Instance?.FetchNextDialogue();
@@ -208,5 +213,13 @@ public class DialogueUIHandler : MonoBehaviour
     public void StorageFullNotif() {
         RectTransform clone = Instantiate(storageFullPrefab, this.GetComponent<RectTransform>());
         clone.anchoredPosition = notifSpawnPoint.anchoredPosition;
+    }
+
+    public void EndingTextSkipping() {
+        if (!isTyping) {
+            DialogueManager.Instance?.FetchNextDialogue();
+        } else {
+            SkipTextAnimation();
+        }
     }
 }

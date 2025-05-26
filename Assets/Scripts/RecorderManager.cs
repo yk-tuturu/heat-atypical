@@ -54,10 +54,12 @@ public class RecorderManager : MonoBehaviour
 
     public List<RecordableDialogue> GetRecordedDialogueInCurrentLocation() {
         List<string> dialoguesList = LocationManager.Instance.GetDialoguesInCurrentLocation();
+        Debug.Log(dialoguesList);
         List<RecordableDialogue> result = new List<RecordableDialogue>();
 
         foreach (RecordableDialogue dialogue in recordedLines.Values) {
             string id = dialogue.id;
+            Debug.Log(dialogue.id);
             string dialogueName = id.Split("_")[0];
 
             if (dialoguesList.Contains(dialogueName)) {
@@ -73,6 +75,18 @@ public class RecorderManager : MonoBehaviour
         int count = GetRecordedDialogueInCurrentLocation().Count;
 
         return count >= limit;
+    }
+
+    public int CountScore(bool positive) {
+        int counter = 0;
+
+        foreach (RecordableDialogue dialogue in recordedLines.Values) {
+            if (dialogue.isPositive == positive) {
+                counter++;
+            }
+        }
+
+        return counter;
     }
 
 

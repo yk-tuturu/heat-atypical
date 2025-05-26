@@ -1,9 +1,9 @@
 
 Speaker1
 This is the lab
-
-Speaker2
-We start here
 +
+Speaker2
+This is the lab indeed
+-
 Speaker1
 Record this to test
